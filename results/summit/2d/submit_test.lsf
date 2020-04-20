@@ -1,0 +1,23 @@
+#!/bin/bash 
+#BSUB -P csc314 
+#BSUB -J test_hgemv_dist 
+#BSUB -W 02:00 
+#BSUB -nnodes 1 
+
+exe=./test_hgemv_dist_2d
+extra="-l CPU-CPU -d packed -b packed:1"
+check=1
+v=64
+
+for v in 1 2 4 8 16 32 64; do
+vv=$(printf '%02d' $v)
+args="1024 1024 64 8 0.9 ${v} ${check}"
+n=2
+nn=$(printf '%04d' $n)
+jsrun -n 2 -a 1 -c  7 -g 1 -r 2 $extra $exe $args >& hgemv_dist_np${nn}_vv${vv}_2_nof.log
+
+n=4
+args="2048 1024 64 8 0.9 ${v} ${check}"
+nn=$(printf '%04d' $n)
+jsrun -n 4 -a 1 -c  7 -g 1 -r 4 $extra $exe $args >& hgemv_dist_np${nn}_vv${vv}_2_nof.log
+done

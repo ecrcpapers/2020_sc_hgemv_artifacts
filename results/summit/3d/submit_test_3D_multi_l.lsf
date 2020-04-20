@@ -1,0 +1,21 @@
+#!/bin/bash 
+#BSUB -P csc314 
+#BSUB -J test_hgemv_dist 
+#BSUB -W 02:00 
+#BSUB -nnodes 1 
+
+exe=./test_hgemv_dist_3d
+extra="-l CPU-CPU -d packed -b packed:1"
+check=1
+v=64
+
+vv=$(printf '%02d' $v)
+args="128 128 64 64 4 1.1 ${v} ${check}"
+n=2
+nn=$(printf '%04d' $n)
+jsrun -n 2 -a 1 -c  7 -g 1 -r 2 $extra --smpiargs="-mca common_pami_max_threads 1001" $exe $args >& hgemv_dist_3d_np${nn}_vv${vv}_2_nof_multi_l.log
+
+n=4
+args="128 128 128 64 4 1.1 ${v} ${check}"
+nn=$(printf '%04d' $n)
+jsrun -n 4 -a 1 -c  7 -g 1 -r 4 $extra --smpiargs="-mca common_pami_max_threads 1001" $exe $args >& hgemv_dist_3d_np${nn}_vv${vv}_2_nof_multi_l.log

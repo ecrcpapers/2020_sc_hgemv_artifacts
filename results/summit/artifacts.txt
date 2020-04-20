@@ -1,0 +1,35 @@
+output from the runs and the submit scripts are in 2d/ and 3d/
+
+Experimental setup for SUMMIT
+- Power9 CPUs with Nvidia V100 GPUs
+- RHEL  7.6 Linux Kernel 4.14.0-115.14.1.el7a.ppc64le
+- gcc v7.6.0
+- none
+- spectrum-mpi v10.3.1.2-20200121, cuda v10.1.243, openblas v0.3.7, magma v2.5.2, cub v1.8.0, kblas (proprietary branch, will be integrated with upstream)
+- gemv
+- none
+
+# environment variables
+# we do not need THREADED blas
+export OPENBLAS_NUM_THREADS=1
+# we are not interested in any OpenMP parallelization now
+export OMP_NUM_THREADS=1
+
+# variables used to configure on SUMMIT (see build.sh for description)
+COPTFLAGS="-O3 -mcpu=power9"
+CUDAOPTFLAGS=-"O3 -Xcompiler -mcpu=power9"
+CXXOPTFLAGS="-O3 -mcpu=power9"
+FOPTFLAGS="-O3 -mcpu=power9"
+CFLAGS=-fPIC
+CUDAFLAGS="-ccbin g++"
+CXXFLAGS="-std=c++11 -fPIC"
+FFLAGS=-fPIC
+MPICC=mpicc
+MPICXX=mpiCC
+MPIFC=mpifort
+
+# The PETSc configuration used downloaded and compiled openblas (v0.3.7), sm70 support for CUDA code and static libraries build in addition to the gpu requirements in build.sh
+--download-openblas-use-pthreads=1
+--download-openblas=1
+--with-cuda-gencodearch=70
+--with-shared-libraries=0
