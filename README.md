@@ -1,9 +1,9 @@
 # 2020_sc_hgemv_artifacts
 
 
-In order to compile all the relevant code, edit the build.sh script and run it
+In order to compile all the relevant code, edit the build.sh script and run it.
 
-The executables used for the results contained in the paper are located in
+After successfull compilation, the executables used for the results contained in the paper will be located in
 
 petsc/arch-cpu/externalpackages/git.hara/examples/hgemv_dist (for CPU only builds)
 
