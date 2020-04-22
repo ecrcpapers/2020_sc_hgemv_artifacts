@@ -1,15 +1,17 @@
-# 2020_sc_hgemv_artifacts
+# dist-hgemv
 
+This repository contains information for compiling and running code for hierarchical matrix-vector and matrix-dense matrix product on distributed CPU and GPU clusters, and for replicating the resuts from the associated paper.  
 
-In order to download and compile all the relevant code, edit the build.sh script and run it.
+# Build
+
+In order to download and compile all the relevant code, edit the build.sh script and run it. The code will compile for CPU clusters and optionally for GPU clusters. Note that the build takes a couple of minutes for CPUs, but require 30+ minutes on GPUs. Informational message will be displayed through the build process.
 
 After successfull compilation, the executables used for the results contained in the paper will be located in
 
-petsc/arch-cpu/externalpackages/git.hara/examples/hgemv_dist (for CPU only builds)
+* petsc/arch-cpu/externalpackages/git.hara/examples/hgemv_dist (for CPU only builds), and 
+* petsc/arch-gpu/externalpackages/git.hara/examples/hgemv_dist (GPU enabled builds)
 
-or in
-
-petsc/arch-gpu/externalpackages/git.hara/examples/hgemv_dist (GPU enabled builds)
+# Run 
 
 For example, to run the GPU test cases:
 ```
@@ -17,7 +19,8 @@ cd petsc/arch-gpu/externalpackages/git.hara/examples/hgemv_dist
 make
 mpiexec -n 2 ./test_hgemv_dist_2d 128 64 64 8 0.9 4 1
 ```
-The above command will use a 128x64 grid of points in 2D, using 64 as leaf size, 8 as (1D) approximation order for the off-diagonal blocks amenable to compression, 0.9 as admissibility parameter eta, from 1 to 4 rhs vectors in powers of two (i.e. 1,2 and 4), and check the results using the sequential code as baseline. You should get an output like the one below
+The above command will use a 128x64 grid of points in 2D, using 64 as leaf size, 8 as the approximation order (C8xC8 
+tensor-product Chebychev grid used for the approximation of off-diagonal blocks amenable to compression), 0.9 as admissibility parameter eta, from 1 to 4 rhs vectors in powers of two (i.e. 1,2 and 4), and check the results using the sequential code as baseline. You should get an output like the one below
 ```
 Local Rank  1 Pid  56918 on    jasmine device  1 [0x07] Tesla K80
 Local Rank  0 Pid  56917 on    jasmine device  0 [0x06] Tesla K80
@@ -93,7 +96,7 @@ For the 3d case
 ```
 mpiexec -n 2 ./test_hgemv_dist_3d 128 64 32 64 4 1.1 -5 1
 ```
-where we added the third dimension (32) to the grid. The meaning of the other command line parameters remains the same: leaf size, 1D approx order, eta, number of vectors, and check for the results. The number of vectors is negative and it means we only want to test for a specific number, in this case 5. The above command should produce an output like this
+where we added the third dimension (32) to the grid. The meaning of the other command line parameters remains the same: leaf size, Chebychev approx order, eta, number of vectors, and check for the results. The number of vectors is negative and it means we only want to test for a specific number, in this case 5. The above command should produce an output like this
 ```
 Local Rank  0 Pid  57189 on    jasmine device  0 [0x06] Tesla K80
 Local Rank  1 Pid  57190 on    jasmine device  1 [0x07] Tesla K80
@@ -121,4 +124,4 @@ Vectors = 5: Average runtime = 38.538 ms for 5.011 GFLOP at 130.029 GFLOP/s
 Rank 1 Run 9: 2.505441 GFLOP in 0.034418s at 72.794785 GFLOP/s
 Vec diff = 1.670721e-16
 ```
-The results folder contains data from the SUMMIT configuration (artifacts.txt), outputs for 2d and 3d runs, together with the scripts (filter.sh) we used to collect the timings.
+The results folder contains data from the SUMMIT configuration (artifacts.txt), outputs for 2d and 3d runs, together with the scripts (filter.sh) we used to collect the timings in the assciated paper.
