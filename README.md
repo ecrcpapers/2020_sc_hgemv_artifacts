@@ -6,7 +6,7 @@ This repository contains information for compiling and running code for hierarch
 
 In order to download and compile all the relevant code, edit the build.sh script and run it. The code will compile for CPU clusters and optionally for GPU clusters. Note that the build takes a couple of minutes for CPUs, but require 30+ minutes on GPUs. Informational messages will be displayed through the build process.
 
-After successful compilation, the executables used for the results contained in the paper will be located in
+After successful compilation, the source files needed to reproduce the results contained in the paper will be located in
 * petsc/arch-cpu/externalpackages/git.hara/examples/hgemv_dist (for CPU only builds), and 
 * petsc/arch-gpu/externalpackages/git.hara/examples/hgemv_dist (GPU enabled builds)
 
