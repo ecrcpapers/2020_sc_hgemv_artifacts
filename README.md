@@ -4,15 +4,17 @@ This repository contains information for compiling and running code for hierarch
 
 # Build
 
-In order to download and compile all the relevant code, edit the build.sh script and run it. The code will compile for CPU clusters and optionally for GPU clusters. Note that the build takes a couple of minutes for CPUs, but require 30+ minutes on GPUs. Informational messages will be displayed through the build process.
+In order to download and compile all the relevant code, edit the build.sh script and run it. The code will compile for CPU clusters and optionally for GPU clusters. Note that the build takes a couple of minutes for CPUs, but require 30+ minutes on GPUs. Informational messages will be displayed during the build process.
 
-After successful compilation, the source files needed to reproduce the results contained in the paper will be located in
+The build script will download PETSc, a BLAS/LAPACK if one is not provided, and Thrust for the CPU build. It will additionally download MAGMA and CUB for the GPU build. Code has been tested with both the gnu and intel compilers, and with both spectrum-mpi and OpenMPI. 
+
+After a successful build, the source files needed to reproduce the results contained in the paper will be located in
 * petsc/arch-cpu/externalpackages/git.hara/examples/hgemv_dist (for CPU only builds), and 
 * petsc/arch-gpu/externalpackages/git.hara/examples/hgemv_dist (GPU enabled builds)
 
 # Run 
 
-For example, to run the GPU test cases:
+To run the GPU test cases:
 ```
 cd petsc/arch-gpu/externalpackages/git.hara/examples/hgemv_dist
 make
