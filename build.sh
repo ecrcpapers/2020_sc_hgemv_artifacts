@@ -48,7 +48,7 @@ cpubuild="--download-thrust"
 gpubuild="--with-cuda --with-cudac=nvcc --download-kblas --download-magma --with-magma-fortran-bindings=0 --download-cub $SM"
 
 # just to make sure...
-export PETSC_DIR=$PWD
+export PETSC_DIR=$PWD 
 
 # configure for CPU only builds
 ./configure PETSC_ARCH=arch-cpu $cpuflags $opts $cpubuild
